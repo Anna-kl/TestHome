@@ -1,0 +1,60 @@
+<form class="row row-cols-sm-auto">
+  <div class="col-12">
+    <div class="input-group">
+      <input
+              class="form-control"
+              placeholder="yyyy-mm-dd"
+              name="dp"
+              [(ngModel)]="model"
+              (ngModelChange)="getCurrencies()"
+              ngbDatepicker
+              #d="ngbDatepicker"
+      />
+      <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+    </div>
+  </div>
+</form>
+<div class="container" *ngIf="currencyNames$|async as names">
+<!--<div class="dropdown">-->
+<!--  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--    Выберите валюту-->
+<!--  </button>-->
+<!--  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">-->
+<!--    <a class="dropdown-item" href="#">Action</a>-->
+<!--    <a class="dropdown-item" href="#">Another action</a>-->
+<!--    <a class="dropdown-item" href="#">Something else here</a>-->
+<!--&lt;!&ndash;    <a class="dropdown-item" (click)="getCurrenciesForName(name)"&ndash;&gt;-->
+<!--&lt;!&ndash;       href="javascript:void(0)" *ngFor="let name of names">{{name}}</a>&ndash;&gt;-->
+<!--  </div>-->
+<!--</div>-->
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Dropdown button
+    </button>
+    <ul class="dropdown-menu" style="">
+      <li *ngFor="let name of names"><a  (click)="getCurrenciesForName(name)"
+                                         class="dropdown-item" href="javascript:void(0)">
+        {{name}}</a></li>
+<!--      <li><a class="dropdown-item" href="#">Action</a></li>-->
+<!--      <li><a class="dropdown-item" href="#">Another action</a></li>-->
+<!--      <li><a class="dropdown-item" href="#">Something else here</a></li>-->
+    </ul>
+  </div>
+<table class="table table-dark" >
+  <thead>
+  <tr >
+    <th>Date</th>
+    <th scope="col" *ngFor="let name of names">{{name}}</th>
+
+  </tr>
+  </thead>
+  <tbody *ngIf="currencies$|async as currencies">
+  <tr *ngFor="let date of getDateCurrencies(currencies)">
+    <th scope="row">{{date|date: 'dd.MM.YYYY'}}</th>
+    <td *ngFor="let cur of getCurrenciesForDate(date, currencies)">{{cur}}</td>
+
+  </tr>
+
+  </tbody>
+</table>
+</div>
